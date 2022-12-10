@@ -8,28 +8,28 @@
 
 <VBox alignment="CENTER" minHeight="500.0" minWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.ahlberg.drawshapesapp.AppController">
       <HBox alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="700.0">
-            <Button mnemonicParsing="false" text="&lt;--">
+            <Button fx:id="undoButton" mnemonicParsing="false" text="&lt;--">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-            <Button mnemonicParsing="false" text="--&gt;">
+            <Button fx:id="redoButton" mnemonicParsing="false" text="--&gt;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Pane prefHeight="40.0" prefWidth="400.0" />
             <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                   <Label text="Collaborate:" />
-                  <Button mnemonicParsing="false" text="Connect">
+                  <Button fx:id="connectButton" mnemonicParsing="false" text="Connect">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                   <Label text="Save to file:" />
-                  <Button mnemonicParsing="false" text="Save">
+                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
@@ -38,7 +38,7 @@
       <HBox prefHeight="450.0" prefWidth="700.0">
             <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                   <Label text="Shape:" />
-                  <ComboBox prefWidth="125.0">
+                  <ComboBox fx:id="shapeComboBox" prefWidth="125.0">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></ComboBox>
@@ -46,7 +46,7 @@
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></Label>
-                  <ColorPicker minHeight="25.0" prefWidth="125.0">
+                  <ColorPicker fx:id="colorPicker" minHeight="25.0" prefWidth="125.0">
             <VBox.margin>
                <Insets />
             </VBox.margin>
@@ -57,7 +57,7 @@
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></Label>
-         <Slider>
+         <Slider fx:id="sizeSlider">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Slider>
@@ -66,11 +66,11 @@
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></Label>
-                  <ToggleButton mnemonicParsing="false" text="Turn ON" underline="true">
+                  <ToggleButton fx:id="selectModeButton" mnemonicParsing="false" text="Turn ON" underline="true">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></ToggleButton>
-         <Button mnemonicParsing="false" text="Change selected">
+         <Button fx:id="updateButton" mnemonicParsing="false" text="Change selected">
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin>
@@ -82,7 +82,7 @@
             <Insets top="50.0" />
          </padding>
             </VBox>
-            <Canvas height="425.0" width="550.0">
+            <Canvas fx:id="canvas" height="450.0" width="550.0">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor></Canvas>
