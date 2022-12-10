@@ -57,7 +57,7 @@
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></Label>
-         <Slider fx:id="sizeSlider">
+         <Slider fx:id="sizeSlider" max="200.0" min="10.0">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Slider>
@@ -82,7 +82,7 @@
             <Insets top="50.0" />
          </padding>
             </VBox>
-            <Canvas fx:id="canvas" height="450.0" width="550.0">
+            <Canvas fx:id="canvas" height="430.0" width="550.0">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor></Canvas>
