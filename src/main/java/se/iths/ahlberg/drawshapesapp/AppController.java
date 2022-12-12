@@ -48,6 +48,7 @@ public class AppController {
             GraphicsContext gc = canvas.getGraphicsContext2D();
 
             newShape.draw(gc);
+            System.out.println(newShape.toSVG());
 
             //TODO:: save shape to "shapes to draw" observable list - move drawing to event handler function
             //TODO:: save shape to undo list

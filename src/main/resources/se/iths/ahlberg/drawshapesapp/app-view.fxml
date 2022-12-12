@@ -66,7 +66,8 @@
                     <Insets top="10.0"/>
                 </VBox.margin>
             </Label>
-            <Slider fx:id="sizeSlider" max="200.0" min="10.0">
+            <Slider fx:id="sizeSlider" majorTickUnit="10.0" max="200.0" min="10.0" minorTickCount="0"
+                    showTickMarks="true" snapToTicks="true">
                 <cursor>
                     <Cursor fx:constant="HAND"/>
                 </cursor>
