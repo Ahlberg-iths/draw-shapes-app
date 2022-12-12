@@ -1,5 +1,6 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public abstract class Shape {
@@ -21,6 +22,6 @@ public abstract class Shape {
         };
     }
 
-    abstract void draw(/*TODO::x,y coordinate params?*/);
+    abstract void draw(GraphicsContext context);
 
 }

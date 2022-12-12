@@ -1,5 +1,6 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Circle extends Shape {
@@ -9,7 +10,12 @@ public class Circle extends Shape {
     }
 
     @Override
-    void draw() {
+    void draw(GraphicsContext context) {
 
+        var x = this.coordinates.x();
+        var y = this.coordinates.y();
+
+        context.setFill(this.color);
+        context.fillOval(x - this.size / 2,y - this.size / 2, this.size, this.size);
     }
 }
