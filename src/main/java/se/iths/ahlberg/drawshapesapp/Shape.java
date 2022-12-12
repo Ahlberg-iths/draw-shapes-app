@@ -24,4 +24,6 @@ public abstract class Shape {
 
     abstract void draw(GraphicsContext context);
 
+    abstract String toSVG();
+
 }

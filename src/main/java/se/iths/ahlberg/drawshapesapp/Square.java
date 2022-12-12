@@ -18,4 +18,13 @@ public class Square extends Shape {
         context.setFill(this.color);
         context.fillRect(x - this.size / 2,y - this.size / 2, this.size, this.size);
     }
+
+    @Override
+    String toSVG() {
+
+        var x = String.format("%.2f", this.coordinates.x() - this.size / 2);
+        var y = String.format("%.2f", this.coordinates.y() - this.size / 2);
+
+        return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"" + this.size + "\" height=\"" + this.size + "\" fill=\"#" + String.copyValueOf(this.color.toString().toCharArray(),2, 6) + "\" />";
+    }
 }

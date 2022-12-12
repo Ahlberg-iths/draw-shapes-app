@@ -18,4 +18,13 @@ public class Circle extends Shape {
         context.setFill(this.color);
         context.fillOval(x - this.size / 2,y - this.size / 2, this.size, this.size);
     }
+
+    @Override
+    String toSVG() {
+
+        var x = String.format("%.2f", this.coordinates.x());
+        var y = String.format("%.2f", this.coordinates.y());
+
+        return "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + this.size / 2 + "\" fill=\"#" + String.copyValueOf(this.color.toString().toCharArray(),2, 6) + "\" />";
+    }
 }
