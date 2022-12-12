@@ -42,4 +42,20 @@ public class Model {
     public BooleanProperty inSelectModeProperty() {
         return inSelectMode;
     }
+
+    public Color getColor() {
+        return color.get();
+    }
+
+    public Number getSize() {
+        return size.get();
+    }
+
+    public ShapeChoice getShapeChoice() {
+        return shapeChoice.get();
+    }
+
+    public boolean isInSelectMode() {
+        return inSelectMode.get();
+    }
 }
