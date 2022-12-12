@@ -38,6 +38,18 @@ public class AppController {
         model.getCurrentShapesList().forEach(shape -> shape.draw(graphicsContext));
     }
 
+    String composeSVGElementFromCurrentShapes() {
+
+        StringBuilder svg = new StringBuilder();
+        svg.append("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ")
+                .append("width=\"" + canvas.getWidth() + "\" ")
+                .append("height=\"" + canvas.getHeight() + "\">");
+
+        model.getCurrentShapesList().forEach(shape -> svg.append("\n\t").append(shape.toSVG()));
+
+        return svg.append("\n</svg>").toString();
+    }
+
     public void handleCanvasClicked(MouseEvent mouseEvent) {
 
         CanvasCoordinates coordinates = new CanvasCoordinates(mouseEvent.getX(), mouseEvent.getY());
