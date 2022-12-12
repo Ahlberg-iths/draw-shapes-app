@@ -1,5 +1,6 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -20,6 +21,7 @@ public class AppController {
     public ComboBox<ShapeChoice> shapeComboBox;
     public ColorPicker colorPicker;
     public Slider sizeSlider;
+    private GraphicsContext graphicsContext;
 
     public void initialize() {
         colorPicker.valueProperty().bindBidirectional(model.colorProperty());
@@ -27,6 +29,13 @@ public class AppController {
         shapeComboBox.valueProperty().bindBidirectional(model.shapeChoiceProperty());
         shapeComboBox.setItems(model.getShapeChoiceList());
         selectModeButton.selectedProperty().bindBidirectional(model.inSelectModeProperty());
+        graphicsContext = canvas.getGraphicsContext2D();
+        model.getCurrentShapesList().addListener((ListChangeListener<Shape>) aa -> drawShapesOnCanvas());
+    }
+
+    void drawShapesOnCanvas() {
+        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        model.getCurrentShapesList().forEach(shape -> shape.draw(graphicsContext));
     }
 
     public void handleCanvasClicked(MouseEvent mouseEvent) {
@@ -44,15 +53,7 @@ public class AppController {
             Color color = model.getColor();
 
             Shape newShape = Shape.of(shapeChoice, (Double)size, color, coordinates);
-
-            GraphicsContext gc = canvas.getGraphicsContext2D();
-
-            newShape.draw(gc);
-            System.out.println(newShape.toSVG());
-
-            //TODO:: save shape to "shapes to draw" observable list - move drawing to event handler function
-            //TODO:: save shape to undo list
-
+            model.addToCurrentShapesList(newShape);
         }
     }
 }
