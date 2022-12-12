@@ -2,6 +2,7 @@ package se.iths.ahlberg.drawshapesapp;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.util.Locale;
 
 public class Circle extends Shape {
 
@@ -22,8 +23,8 @@ public class Circle extends Shape {
     @Override
     String toSVG() {
 
-        var x = String.format("%.2f", this.coordinates.x());
-        var y = String.format("%.2f", this.coordinates.y());
+        var x = String.format(Locale.US,"%.2f", this.coordinates.x());
+        var y = String.format(Locale.US,"%.2f", this.coordinates.y());
 
         return "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + this.size / 2 + "\" fill=\"#" + String.copyValueOf(this.color.toString().toCharArray(),2, 6) + "\" />";
     }

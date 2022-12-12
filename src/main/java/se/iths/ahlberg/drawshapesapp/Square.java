@@ -2,6 +2,7 @@ package se.iths.ahlberg.drawshapesapp;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.util.Locale;
 
 public class Square extends Shape {
 
@@ -22,8 +23,8 @@ public class Square extends Shape {
     @Override
     String toSVG() {
 
-        var x = String.format("%.2f", this.coordinates.x() - this.size / 2);
-        var y = String.format("%.2f", this.coordinates.y() - this.size / 2);
+        var x = String.format(Locale.US,"%.2f", this.coordinates.x() - this.size / 2);
+        var y = String.format(Locale.US,"%.2f", this.coordinates.y() - this.size / 2);
 
         return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"" + this.size + "\" height=\"" + this.size + "\" fill=\"#" + String.copyValueOf(this.color.toString().toCharArray(),2, 6) + "\" />";
     }
