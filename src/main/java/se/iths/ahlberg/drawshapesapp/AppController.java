@@ -1,11 +1,16 @@
 package se.iths.ahlberg.drawshapesapp;
 
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class AppController {
 
@@ -66,6 +71,21 @@ public class AppController {
 
             Shape newShape = Shape.of(shapeChoice, (Double)size, color, coordinates);
             model.addToCurrentShapesList(newShape);
+        }
+    }
+
+    public void handleSaveToFile(ActionEvent event) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(0, new FileChooser.ExtensionFilter("SVG file (*.svg)","*.svg"));
+            File file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
+
+            if (file != null){
+                Path path = Path.of(file.getPath());
+                Files.writeString(path, composeSVGElementFromCurrentShapes());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
