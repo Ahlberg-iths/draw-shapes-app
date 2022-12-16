@@ -60,8 +60,19 @@ public class AppController {
         CanvasCoordinates coordinates = new CanvasCoordinates(mouseEvent.getX(), mouseEvent.getY());
 
         if (model.isInSelectMode()) {
+
+            model.getCurrentShapesList().stream()
+                    .filter(shape -> shape.isCoveringCoordinates(coordinates))
+                    .reduce((a,b) -> b)
+                    .ifPresent(shape -> {
+                            //TODO:: if shape in SELECTED-array  --> remove it
+                            //TODO:: else add it to SELECTED-array
+                        shape.setColor(model.getColor());
+                        shape.setSize((Double) model.getSize());
+                    });
             //TODO:: check which shape is clicked
             //TODO:: put shape in some list with selected shapes ?
+
         } else {
             //TODO:: clear some list with selected shapes ? or do this on "in select mode button" click (off) instead?
 

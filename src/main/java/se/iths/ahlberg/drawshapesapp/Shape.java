@@ -1,17 +1,19 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public abstract class Shape {
 
-    double size;
-    Color color;
+    ObjectProperty<Double> size = new SimpleObjectProperty<>();
+    ObjectProperty<Color> color = new SimpleObjectProperty<>();;
     CanvasCoordinates coordinates;
 
     public Shape(double size, Color color, CanvasCoordinates coordinates) {
-        this.size = size;
-        this.color = color;
+        this.size.set(size);
+        this.color.set(color);
         this.coordinates = coordinates;
     }
 
@@ -22,8 +24,33 @@ public abstract class Shape {
         };
     }
 
+    public Color getColor() {
+        return color.get();
+    }
+
+    public ObjectProperty<Color> colorProperty() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color.set(color);
+    }
+
+    public Double getSize() {
+        return size.get();
+    }
+
+    public ObjectProperty<Double> sizeProperty() {
+        return size;
+    }
+
+    public void setSize(Double size) {
+        this.size.set(size);
+    }
+
     abstract void draw(GraphicsContext context);
 
     abstract String toSVG();
 
+    abstract boolean isCoveringCoordinates(CanvasCoordinates point);
 }

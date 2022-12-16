@@ -16,8 +16,8 @@ public class Circle extends Shape {
         var x = this.coordinates.x();
         var y = this.coordinates.y();
 
-        context.setFill(this.color);
-        context.fillOval(x - this.size / 2,y - this.size / 2, this.size, this.size);
+        context.setFill(getColor());
+        context.fillOval(x - getSize() / 2,y - getSize() / 2, getSize(), getSize());
     }
 
     @Override
@@ -26,6 +26,12 @@ public class Circle extends Shape {
         var x = String.format(Locale.US,"%.2f", this.coordinates.x());
         var y = String.format(Locale.US,"%.2f", this.coordinates.y());
 
-        return "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + this.size / 2 + "\" fill=\"#" + String.copyValueOf(this.color.toString().toCharArray(),2, 6) + "\" />";
+        return "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + getSize() / 2 + "\" fill=\"#" + String.copyValueOf(getColor().toString().toCharArray(),2, 6) + "\" />";
+    }
+
+    @Override
+    boolean isCoveringCoordinates(CanvasCoordinates point) {
+        return Math.sqrt(Math.pow(Math.abs(this.coordinates.x() - point.x()), 2) +
+                Math.pow(Math.abs(this.coordinates.y() - point.y()), 2)) <= getSize() / 2;
     }
 }

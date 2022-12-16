@@ -1,5 +1,6 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +23,7 @@ public class Model {
         this.inSelectMode = new SimpleBooleanProperty(false);
         this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.CIRCLE);
         this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.SQUARE, ShapeChoice.CIRCLE));
-        this.currentShapesList = FXCollections.observableArrayList();
+        this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
     }
 
     public ObjectProperty<Color> colorProperty() {
