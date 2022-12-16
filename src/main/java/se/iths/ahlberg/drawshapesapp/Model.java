@@ -5,7 +5,8 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Model {
@@ -15,6 +16,8 @@ public class Model {
     private final ObjectProperty<ShapeChoice> shapeChoice;
     private final ObservableList<ShapeChoice> shapeChoiceList;
     private final ObservableList<Shape> currentShapesList;
+    private final Deque<Command> undoList;
+    private final Deque<Command> redoList;
 
     public Model () {
         this.color = new SimpleObjectProperty<>(Color.web("#663366"));
@@ -22,6 +25,8 @@ public class Model {
         this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.CIRCLE);
         this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.values()));
         this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
+        this.undoList = new LinkedList<>();
+        this.redoList = new LinkedList<>();
     }
 
     public ObjectProperty<Color> colorProperty() {
@@ -58,5 +63,13 @@ public class Model {
 
     public ObservableList<Shape> getCurrentShapesList() {
         return currentShapesList;
+    }
+
+    public Deque<Command> getUndoList() {
+        return undoList;
+    }
+
+    public Deque<Command> getRedoList() {
+        return redoList;
     }
 }

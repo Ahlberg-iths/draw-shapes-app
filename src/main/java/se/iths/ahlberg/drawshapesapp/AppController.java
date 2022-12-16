@@ -63,7 +63,11 @@ public class AppController {
                     .reduce((a,b) -> b)
                     .ifPresent(shape -> {
                         int i = model.getCurrentShapesList().indexOf(shape);
-                        model.getCurrentShapesList().set(i, Shape.of(model.getShapeChoice(), (Double) model.getSize(), model.getColor(), shape.getCoordinates()));
+                        Shape editedShape = Shape.of(model.getShapeChoice(), (Double) model.getSize(), model.getColor(), shape.getCoordinates());
+
+                        Command editCommand = new EditCommand(shape, editedShape, model, i);
+                        editCommand.execute();
+                        model.getUndoList().push(editCommand);
                     });
         } else {
             ShapeChoice shapeChoice = model.getShapeChoice();
@@ -71,7 +75,10 @@ public class AppController {
             Color color = model.getColor();
 
             Shape newShape = Shape.of(shapeChoice, (Double)size, color, coordinates);
-            model.addToCurrentShapesList(newShape);
+
+            Command addCommand = new AddCommand(newShape, model);
+            addCommand.execute();
+            model.getUndoList().push(addCommand);
         }
     }
 
@@ -88,5 +95,17 @@ public class AppController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void handleUndo(ActionEvent actionEvent) {
+        Command command = model.getUndoList().pop();
+        command.undo();
+        model.getRedoList().push(command);
+    }
+
+    public void handleRedo(ActionEvent actionEvent) {
+        Command command = model.getRedoList().pop();
+        command.execute();
+        model.getUndoList().push(command);
     }
 }
