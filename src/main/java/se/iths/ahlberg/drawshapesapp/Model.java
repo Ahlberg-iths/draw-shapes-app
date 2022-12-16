@@ -12,17 +12,15 @@ public class Model {
 
     private final ObjectProperty<Color> color;
     private final ObjectProperty<Number> size;
-    private final BooleanProperty inSelectMode;
     private final ObjectProperty<ShapeChoice> shapeChoice;
     private final ObservableList<ShapeChoice> shapeChoiceList;
     private final ObservableList<Shape> currentShapesList;
 
     public Model () {
-        this.color = new SimpleObjectProperty<>(Color.PALETURQUOISE);
-        this.size = new SimpleObjectProperty<>(20.0);
-        this.inSelectMode = new SimpleBooleanProperty(false);
+        this.color = new SimpleObjectProperty<>(Color.web("#663366"));
+        this.size = new SimpleObjectProperty<>(80.0);
         this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.CIRCLE);
-        this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.SQUARE, ShapeChoice.CIRCLE));
+        this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.values()));
         this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
     }
 
@@ -42,10 +40,6 @@ public class Model {
         return shapeChoiceList;
     }
 
-    public BooleanProperty inSelectModeProperty() {
-        return inSelectMode;
-    }
-
     public Color getColor() {
         return color.get();
     }
@@ -56,10 +50,6 @@ public class Model {
 
     public ShapeChoice getShapeChoice() {
         return shapeChoice.get();
-    }
-
-    public boolean isInSelectMode() {
-        return inSelectMode.get();
     }
 
     public void addToCurrentShapesList(Shape shape) {

@@ -13,8 +13,8 @@ public class Square extends Shape {
     @Override
     void draw(GraphicsContext context) {
 
-        var x = this.coordinates.x();
-        var y = this.coordinates.y();
+        var x = getCoordinates().x();
+        var y = getCoordinates().y();
 
         context.setFill(getColor());
         context.fillRect(x - getSize() / 2,y - getSize() / 2, getSize(), getSize());
@@ -23,8 +23,8 @@ public class Square extends Shape {
     @Override
     String toSVG() {
 
-        var x = String.format(Locale.US,"%.2f", this.coordinates.x() - getSize() / 2);
-        var y = String.format(Locale.US,"%.2f", this.coordinates.y() - getSize() / 2);
+        var x = String.format(Locale.US,"%.2f", getCoordinates().x() - getSize() / 2);
+        var y = String.format(Locale.US,"%.2f", getCoordinates().y() - getSize() / 2);
 
         return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"" + getSize() + "\" height=\"" + getSize() + "\" fill=\"#" + String.copyValueOf(getColor().toString().toCharArray(),2, 6) + "\" />";
     }
@@ -32,7 +32,7 @@ public class Square extends Shape {
     @Override
     boolean isCoveringCoordinates(CanvasCoordinates point) {
         //TODO::
-         return (point.x() >= this.coordinates.x() - getSize() / 2 && point.x() <= (this.coordinates.x() + getSize() / 2)) &&
-                (point.y() >= this.coordinates.y() - getSize() / 2 && point.y() <= (this.coordinates.y() + getSize() / 2));
+         return (point.x() >= getCoordinates().x() - getSize() / 2 && point.x() <= (getCoordinates().x() + getSize() / 2)) &&
+                (point.y() >= getCoordinates().y() - getSize() / 2 && point.y() <= (getCoordinates().y() + getSize() / 2));
     }
 }

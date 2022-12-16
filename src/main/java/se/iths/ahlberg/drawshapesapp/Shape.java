@@ -7,9 +7,9 @@ import javafx.scene.paint.Color;
 
 public abstract class Shape {
 
-    ObjectProperty<Double> size = new SimpleObjectProperty<>();
-    ObjectProperty<Color> color = new SimpleObjectProperty<>();;
-    CanvasCoordinates coordinates;
+    private final ObjectProperty<Double> size = new SimpleObjectProperty<>();
+    private final ObjectProperty<Color> color = new SimpleObjectProperty<>();;
+    private final CanvasCoordinates coordinates;
 
     public Shape(double size, Color color, CanvasCoordinates coordinates) {
         this.size.set(size);
@@ -53,4 +53,8 @@ public abstract class Shape {
     abstract String toSVG();
 
     abstract boolean isCoveringCoordinates(CanvasCoordinates point);
+
+    public CanvasCoordinates getCoordinates() {
+        return coordinates;
+    }
 }

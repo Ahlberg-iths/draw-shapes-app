@@ -21,8 +21,6 @@ public class AppController {
     public Button redoButton;
     public Button connectButton;
     public Button saveButton;
-    public Button updateButton;
-    public ToggleButton selectModeButton;
     public ComboBox<ShapeChoice> shapeComboBox;
     public ColorPicker colorPicker;
     public Slider sizeSlider;
@@ -33,7 +31,6 @@ public class AppController {
         sizeSlider.valueProperty().bindBidirectional(model.sizeProperty());
         shapeComboBox.valueProperty().bindBidirectional(model.shapeChoiceProperty());
         shapeComboBox.setItems(model.getShapeChoiceList());
-        selectModeButton.selectedProperty().bindBidirectional(model.inSelectModeProperty());
         graphicsContext = canvas.getGraphicsContext2D();
         model.getCurrentShapesList().addListener((ListChangeListener<Shape>) aa -> drawShapesOnCanvas());
     }
@@ -59,23 +56,16 @@ public class AppController {
 
         CanvasCoordinates coordinates = new CanvasCoordinates(mouseEvent.getX(), mouseEvent.getY());
 
-        if (model.isInSelectMode()) {
+        if (mouseEvent.isControlDown()) {
 
             model.getCurrentShapesList().stream()
                     .filter(shape -> shape.isCoveringCoordinates(coordinates))
                     .reduce((a,b) -> b)
                     .ifPresent(shape -> {
-                            //TODO:: if shape in SELECTED-array  --> remove it
-                            //TODO:: else add it to SELECTED-array
-                        shape.setColor(model.getColor());
-                        shape.setSize((Double) model.getSize());
+                        int i = model.getCurrentShapesList().indexOf(shape);
+                        model.getCurrentShapesList().set(i, Shape.of(model.getShapeChoice(), (Double) model.getSize(), model.getColor(), shape.getCoordinates()));
                     });
-            //TODO:: check which shape is clicked
-            //TODO:: put shape in some list with selected shapes ?
-
         } else {
-            //TODO:: clear some list with selected shapes ? or do this on "in select mode button" click (off) instead?
-
             ShapeChoice shapeChoice = model.getShapeChoice();
             Number size = model.getSize();
             Color color = model.getColor();

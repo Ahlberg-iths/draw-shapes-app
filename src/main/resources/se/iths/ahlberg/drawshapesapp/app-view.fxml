@@ -71,24 +71,6 @@
                 </cursor>
             </Slider>
             <Pane prefHeight="120.0" prefWidth="150.0" />
-            <Label text="In select mode:">
-                <VBox.margin>
-                    <Insets top="10.0" />
-                </VBox.margin>
-            </Label>
-            <ToggleButton fx:id="selectModeButton" mnemonicParsing="false" text="Turn ON" underline="true">
-                <cursor>
-                    <Cursor fx:constant="HAND" />
-                </cursor>
-            </ToggleButton>
-            <Button fx:id="updateButton" mnemonicParsing="false" text="Change selected">
-                <VBox.margin>
-                    <Insets top="10.0" />
-                </VBox.margin>
-                <cursor>
-                    <Cursor fx:constant="HAND" />
-                </cursor>
-            </Button>
             <padding>
                 <Insets top="50.0" />
             </padding>
