@@ -31,7 +31,6 @@ public class Square extends Shape {
 
     @Override
     boolean isCoveringCoordinates(CanvasCoordinates point) {
-        //TODO::
          return (point.x() >= getCoordinates().x() - getSize() / 2 && point.x() <= (getCoordinates().x() + getSize() / 2)) &&
                 (point.y() >= getCoordinates().y() - getSize() / 2 && point.y() <= (getCoordinates().y() + getSize() / 2));
     }

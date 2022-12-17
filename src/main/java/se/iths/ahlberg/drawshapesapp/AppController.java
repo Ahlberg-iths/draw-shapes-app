@@ -1,7 +1,6 @@
 package se.iths.ahlberg.drawshapesapp;
 
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -56,8 +55,8 @@ public class AppController {
 
         StringBuilder svg = new StringBuilder();
         svg.append("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ")
-                .append("width=\"" + canvas.getWidth() + "\" ")
-                .append("height=\"" + canvas.getHeight() + "\">");
+                .append("width=\"").append(canvas.getWidth()).append("\" ")
+                .append("height=\"").append(canvas.getHeight()).append("\">");
 
         model.getCurrentShapesList().forEach(shape -> svg.append("\n\t").append(shape.toSVG()));
 
@@ -94,7 +93,7 @@ public class AppController {
         }
     }
 
-    public void handleSaveToFile(ActionEvent event) {
+    public void handleSaveToFile() {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(0, new FileChooser.ExtensionFilter("SVG file (*.svg)","*.svg"));
@@ -109,13 +108,13 @@ public class AppController {
         }
     }
 
-    public void handleUndo(ActionEvent actionEvent) {
+    public void handleUndo() {
         Command command = model.getUndoList().remove(model.getUndoList().size() - 1);
         command.undo();
         model.getRedoList().add(command);
     }
 
-    public void handleRedo(ActionEvent actionEvent) {
+    public void handleRedo() {
         Command command = model.getRedoList().remove(model.getRedoList().size() - 1);
         command.execute();
         model.getUndoList().add(command);

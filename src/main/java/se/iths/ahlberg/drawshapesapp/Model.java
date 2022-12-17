@@ -60,10 +60,6 @@ public class Model {
         return shapeChoice.get();
     }
 
-    public void addToCurrentShapesList(Shape shape) {
-        this.currentShapesList.add(shape);
-    }
-
     public ObservableList<Shape> getCurrentShapesList() {
         return currentShapesList;
     }
