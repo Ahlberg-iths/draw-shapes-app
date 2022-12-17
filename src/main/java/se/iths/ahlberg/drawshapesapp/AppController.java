@@ -79,6 +79,7 @@ public class AppController {
                         Command editCommand = new EditCommand(shape, editedShape, model, i);
                         editCommand.execute();
                         model.getUndoList().add(editCommand);
+                        model.getRedoList().clear();
                     });
         } else {
             ShapeChoice shapeChoice = model.getShapeChoice();
@@ -90,6 +91,7 @@ public class AppController {
             Command addCommand = new AddCommand(newShape, model);
             addCommand.execute();
             model.getUndoList().add(addCommand);
+            model.getRedoList().clear();
         }
     }
 
