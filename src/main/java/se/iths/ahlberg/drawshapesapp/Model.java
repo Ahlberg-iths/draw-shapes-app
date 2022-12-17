@@ -2,11 +2,10 @@ package se.iths.ahlberg.drawshapesapp;
 
 import javafx.beans.Observable;
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Model {
@@ -16,8 +15,10 @@ public class Model {
     private final ObjectProperty<ShapeChoice> shapeChoice;
     private final ObservableList<ShapeChoice> shapeChoiceList;
     private final ObservableList<Shape> currentShapesList;
-    private final Deque<Command> undoList;
-    private final Deque<Command> redoList;
+    private final ObservableList<Command> undoList;
+    private final ObservableList<Command> redoList;
+    private final ObjectProperty<Boolean> isUndoUnavailable;
+    private final ObjectProperty<Boolean> isRedoUnavailable;
 
     public Model () {
         this.color = new SimpleObjectProperty<>(Color.web("#663366"));
@@ -25,8 +26,10 @@ public class Model {
         this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.CIRCLE);
         this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.values()));
         this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
-        this.undoList = new LinkedList<>();
-        this.redoList = new LinkedList<>();
+        this.undoList = FXCollections.observableArrayList();
+        this.redoList = FXCollections.observableArrayList();
+        this.isUndoUnavailable = new SimpleObjectProperty<>(true);
+        this.isRedoUnavailable = new SimpleObjectProperty<>(true);
     }
 
     public ObjectProperty<Color> colorProperty() {
@@ -65,11 +68,27 @@ public class Model {
         return currentShapesList;
     }
 
-    public Deque<Command> getUndoList() {
+    public ObservableList<Command> getUndoList() {
         return undoList;
     }
 
-    public Deque<Command> getRedoList() {
+    public ObservableList<Command> getRedoList() {
         return redoList;
+    }
+
+    public ObservableValue<Boolean> isUndoUnavailableProperty() {
+        return isUndoUnavailable;
+    }
+
+    public void setIsUndoUnavailable(Boolean isUndoUnavailable) {
+        this.isUndoUnavailable.set(isUndoUnavailable);
+    }
+
+    public ObjectProperty<Boolean> isRedoUnavailableProperty() {
+        return isRedoUnavailable;
+    }
+
+    public void setIsRedoUnavailable(Boolean isRedoUnavailable) {
+        this.isRedoUnavailable.set(isRedoUnavailable);
     }
 }

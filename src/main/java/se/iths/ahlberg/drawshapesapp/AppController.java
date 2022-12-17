@@ -32,7 +32,19 @@ public class AppController {
         shapeComboBox.valueProperty().bindBidirectional(model.shapeChoiceProperty());
         shapeComboBox.setItems(model.getShapeChoiceList());
         graphicsContext = canvas.getGraphicsContext2D();
-        model.getCurrentShapesList().addListener((ListChangeListener<Shape>) aa -> drawShapesOnCanvas());
+        model.getCurrentShapesList().addListener((ListChangeListener<Shape>) (__ -> drawShapesOnCanvas()));
+        model.getUndoList().addListener((ListChangeListener<Command>) (__ -> updateUndoAvailability()));
+        undoButton.disableProperty().bind(model.isUndoUnavailableProperty());
+        model.getRedoList().addListener((ListChangeListener<Command>) (__ -> updateRedoAvailability()));
+        redoButton.disableProperty().bind(model.isRedoUnavailableProperty());
+    }
+
+    private void updateUndoAvailability() {
+        model.setIsUndoUnavailable(model.getUndoList().isEmpty());
+    }
+
+    private void updateRedoAvailability() {
+        model.setIsRedoUnavailable(model.getRedoList().isEmpty());
     }
 
     void drawShapesOnCanvas() {
@@ -67,7 +79,7 @@ public class AppController {
 
                         Command editCommand = new EditCommand(shape, editedShape, model, i);
                         editCommand.execute();
-                        model.getUndoList().push(editCommand);
+                        model.getUndoList().add(editCommand);
                     });
         } else {
             ShapeChoice shapeChoice = model.getShapeChoice();
@@ -78,7 +90,7 @@ public class AppController {
 
             Command addCommand = new AddCommand(newShape, model);
             addCommand.execute();
-            model.getUndoList().push(addCommand);
+            model.getUndoList().add(addCommand);
         }
     }
 
@@ -98,14 +110,14 @@ public class AppController {
     }
 
     public void handleUndo(ActionEvent actionEvent) {
-        Command command = model.getUndoList().pop();
+        Command command = model.getUndoList().remove(model.getUndoList().size() - 1);
         command.undo();
-        model.getRedoList().push(command);
+        model.getRedoList().add(command);
     }
 
     public void handleRedo(ActionEvent actionEvent) {
-        Command command = model.getRedoList().pop();
+        Command command = model.getRedoList().remove(model.getRedoList().size() - 1);
         command.execute();
-        model.getUndoList().push(command);
+        model.getUndoList().add(command);
     }
 }
