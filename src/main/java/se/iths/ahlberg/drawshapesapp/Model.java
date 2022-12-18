@@ -22,8 +22,8 @@ public class Model {
 
     public Model () {
         this.color = new SimpleObjectProperty<>(Color.web("#663366"));
-        this.size = new SimpleObjectProperty<>(80.0);
-        this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.CIRCLE);
+        this.size = new SimpleObjectProperty<>(200.0);
+        this.shapeChoice = new SimpleObjectProperty<>(ShapeChoice.SQUARE);
         this.shapeChoiceList = FXCollections.observableList(List.of(ShapeChoice.values()));
         this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
         this.undoList = FXCollections.observableArrayList();

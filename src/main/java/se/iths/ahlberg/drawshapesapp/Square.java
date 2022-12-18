@@ -13,11 +13,12 @@ public class Square extends Shape {
     @Override
     void draw(GraphicsContext context) {
 
-        var x = getCoordinates().x();
-        var y = getCoordinates().y();
-
         context.setFill(getColor());
-        context.fillRect(x - getSize() / 2,y - getSize() / 2, getSize(), getSize());
+        context.fillRect(getCoordinates().x() - getSize() / 2,
+                         getCoordinates().y() - getSize() / 2,
+                            getSize(),
+                            getSize()
+        );
     }
 
     @Override
@@ -26,7 +27,11 @@ public class Square extends Shape {
         var x = String.format(Locale.US,"%.2f", getCoordinates().x() - getSize() / 2);
         var y = String.format(Locale.US,"%.2f", getCoordinates().y() - getSize() / 2);
 
-        return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"" + getSize() + "\" height=\"" + getSize() + "\" fill=\"#" + String.copyValueOf(getColor().toString().toCharArray(),2, 6) + "\" />";
+        return "<rect x=\"" + x +
+                "\" y=\"" + y +
+                "\" width=\"" + getSize() +
+                "\" height=\"" + getSize() +
+                "\" fill=\"#" + getColor().toString().substring(2, 8) + "\" />";
     }
 
     @Override

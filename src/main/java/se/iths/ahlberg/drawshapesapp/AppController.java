@@ -63,36 +63,45 @@ public class AppController {
         return svg.append("\n</svg>").toString();
     }
 
-    public void handleCanvasClicked(MouseEvent mouseEvent) {
+    public void drawOnCanvas(MouseEvent mouseEvent) {
 
         CanvasCoordinates coordinates = new CanvasCoordinates(mouseEvent.getX(), mouseEvent.getY());
 
-        if (mouseEvent.isControlDown()) {
+        if (mouseEvent.isControlDown())
+            drawOnCanvasInSelectMode(coordinates);
+        else
+            addNewShape(coordinates);
+    }
 
-            model.getCurrentShapesList().stream()
-                    .filter(shape -> shape.isCoveringCoordinates(coordinates))
-                    .reduce((a,b) -> b)
-                    .ifPresent(shape -> {
-                        int i = model.getCurrentShapesList().indexOf(shape);
-                        Shape editedShape = Shape.of(model.getShapeChoice(), (Double) model.getSize(), model.getColor(), shape.getCoordinates());
+    private void drawOnCanvasInSelectMode(CanvasCoordinates coordinates) {
+        model.getCurrentShapesList().stream()
+                .filter(shape -> shape.isCoveringCoordinates(coordinates))
+                .reduce((a,b) -> b)
+                .ifPresent(this::replaceShape);
+    }
 
-                        Command editCommand = new EditCommand(shape, editedShape, model, i);
-                        editCommand.execute();
-                        model.getUndoList().add(editCommand);
-                        model.getRedoList().clear();
-                    });
-        } else {
-            ShapeChoice shapeChoice = model.getShapeChoice();
-            Number size = model.getSize();
-            Color color = model.getColor();
+    private void addNewShape(CanvasCoordinates coordinates) {
+        ShapeChoice shapeChoice = model.getShapeChoice();
+        Number size = model.getSize();
+        Color color = model.getColor();
 
-            Shape newShape = Shape.of(shapeChoice, (Double)size, color, coordinates);
+        Shape newShape = Shape.of(shapeChoice, (Double)size, color, coordinates);
 
-            Command addCommand = new AddCommand(newShape, model);
-            addCommand.execute();
-            model.getUndoList().add(addCommand);
-            model.getRedoList().clear();
-        }
+        Command addCommand = new AddCommand(newShape, model);
+        addCommand.execute();
+        model.getUndoList().add(addCommand);
+        model.getRedoList().clear();
+    }
+
+    private void replaceShape(Shape shape) {
+
+        int i = model.getCurrentShapesList().indexOf(shape);
+        Shape replacementShape = Shape.of(model.getShapeChoice(), (Double) model.getSize(), model.getColor(), shape.getCoordinates());
+
+        Command editCommand = new EditCommand(shape, replacementShape, model, i);
+        editCommand.execute();
+        model.getUndoList().add(editCommand);
+        model.getRedoList().clear();
     }
 
     public void handleSaveToFile() {

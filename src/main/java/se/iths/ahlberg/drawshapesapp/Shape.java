@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 public abstract class Shape {
 
     private final ObjectProperty<Double> size = new SimpleObjectProperty<>();
-    private final ObjectProperty<Color> color = new SimpleObjectProperty<>();;
+    private final ObjectProperty<Color> color = new SimpleObjectProperty<>();
     private final CanvasCoordinates coordinates;
 
     public Shape(double size, Color color, CanvasCoordinates coordinates) {
@@ -32,20 +32,12 @@ public abstract class Shape {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color.set(color);
-    }
-
     public Double getSize() {
         return size.get();
     }
 
     public ObjectProperty<Double> sizeProperty() {
         return size;
-    }
-
-    public void setSize(Double size) {
-        this.size.set(size);
     }
 
     abstract void draw(GraphicsContext context);

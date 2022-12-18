@@ -13,11 +13,12 @@ public class Circle extends Shape {
     @Override
     void draw(GraphicsContext context) {
 
-        var x = getCoordinates().x();
-        var y = getCoordinates().y();
-
         context.setFill(getColor());
-        context.fillOval(x - getSize() / 2,y - getSize() / 2, getSize(), getSize());
+        context.fillOval(getCoordinates().x() - Calc.radiusFromDiameter(getSize()),
+                         getCoordinates().y() - Calc.radiusFromDiameter(getSize()),
+                            getSize(),
+                            getSize()
+        );
     }
 
     @Override
@@ -26,12 +27,15 @@ public class Circle extends Shape {
         var x = String.format(Locale.US,"%.2f", getCoordinates().x());
         var y = String.format(Locale.US,"%.2f", getCoordinates().y());
 
-        return "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + getSize() / 2 + "\" fill=\"#" + String.copyValueOf(getColor().toString().toCharArray(),2, 6) + "\" />";
+        return "<circle cx=\"" + x +
+                "\" cy=\"" + y +
+                "\" r=\"" + Calc.radiusFromDiameter(getSize()) +
+                "\" fill=\"#" + getColor().toString().substring(2, 8) + "\" />";
     }
 
     @Override
     boolean isCoveringCoordinates(CanvasCoordinates point) {
         return Math.sqrt(Math.pow(Math.abs(getCoordinates().x() - point.x()), 2) +
-                Math.pow(Math.abs(getCoordinates().y() - point.y()), 2)) <= getSize() / 2;
+                Math.pow(Math.abs(getCoordinates().y() - point.y()), 2)) <= Calc.radiusFromDiameter(getSize());
     }
 }
