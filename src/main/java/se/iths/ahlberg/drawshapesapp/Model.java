@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import java.util.List;
+import java.util.Optional;
 
 public class Model {
 
@@ -86,5 +87,71 @@ public class Model {
 
     public void setRedoIsUnavailable(Boolean redoIsUnavailable) {
         this.redoIsUnavailable.set(redoIsUnavailable);
+    }
+
+    String composeSVGElementWithCurrentShapes(double svgWidth, double svgHeight) {
+
+        StringBuilder svg = new StringBuilder();
+        svg.append("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ")
+                .append("width=\"").append(svgWidth).append("\" ")
+                .append("height=\"").append(svgHeight).append("\">");
+
+        getCurrentShapesList().forEach(shape -> svg.append("\n\t").append(shape.toSVG()));
+
+        return svg.append("\n</svg>").toString();
+    }
+
+    void handleRedo() {
+        Command command = getRedoList().remove(getRedoList().size() - 1);
+        command.execute();
+        getUndoList().add(command);
+    }
+
+    void handleUndo() {
+        Command command = getUndoList().remove(getUndoList().size() - 1);
+        command.undo();
+        getRedoList().add(command);
+    }
+
+    void replaceShape(Shape shape) {
+
+        int i = getCurrentShapesList().indexOf(shape);
+
+        Shape replacementShape = Shape.of(getShapeChoice(), (Double) getSize(), getColor(), shape.getCoordinates());
+
+        Command editCommand = new EditCommand(shape, replacementShape, this, i);
+        editCommand.execute();
+        getUndoList().add(editCommand);
+        getRedoList().clear();
+    }
+
+    Optional<Shape> findSelectedShape(CanvasCoordinates coordinates) {
+        return getCurrentShapesList().stream()
+                .filter(shape -> shape.isCoveringCoordinates(coordinates))
+                .reduce((a,b) -> b);
+    }
+
+    void addNewShape(CanvasCoordinates coordinates) {
+
+        Shape shape = Shape.of(getShapeChoice(), (Double)getSize(), getColor(), coordinates);
+
+        Command addCommand = new AddCommand(shape, this);
+        addCommand.execute();
+        getUndoList().add(addCommand);
+        getRedoList().clear();
+    }
+
+    void replaceSelectedShape(CanvasCoordinates coordinates) {
+
+        var selectedShape = findSelectedShape(coordinates);
+        selectedShape.ifPresent(this::replaceShape);
+    }
+
+    void updateUndoAvailability() {
+        setUndoIsUnavailable(getUndoList().isEmpty());
+    }
+
+    void updateRedoAvailability() {
+        setRedoIsUnavailable(getRedoList().isEmpty());
     }
 }

@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" minHeight="500.0" minWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.ahlberg.drawshapesapp.AppController">
     <HBox alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="700.0">
-        <Button fx:id="undoButton" ellipsisString="&lt;--" mnemonicParsing="false" onAction="#handleUndo" text="&lt;--">
+        <Button fx:id="undoButton" ellipsisString="&lt;--" mnemonicParsing="false" onAction="#onUndoButtonClicked" text="&lt;--">
             <HBox.margin>
                 <Insets right="10.0" />
             </HBox.margin>
@@ -16,7 +16,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button fx:id="redoButton" ellipsisString="--&gt;" mnemonicParsing="false" onAction="#handleRedo" text="--&gt;">
+        <Button fx:id="redoButton" ellipsisString="--&gt;" mnemonicParsing="false" onAction="#onRedoButtonClicked" text="--&gt;">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -32,7 +32,7 @@
         </VBox>
         <VBox alignment="BOTTOM_CENTER" minWidth="100.0" prefHeight="200.0" prefWidth="100.0">
             <Label ellipsisString="" />
-            <Button fx:id="saveButton" onAction="#handleSaveToFile" ellipsisString="Save" mnemonicParsing="false" text="Save to file">
+            <Button fx:id="saveButton" onAction="#onSaveButtonClicked" ellipsisString="Save" mnemonicParsing="false" text="Save to file">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
@@ -75,7 +75,7 @@
                 <Insets top="50.0" />
             </padding>
         </VBox>
-        <Canvas fx:id="canvas" height="430.0" onMouseClicked="#drawOnCanvas" width="550.0">
+        <Canvas fx:id="canvas" height="430.0" onMouseClicked="#onCanvasClicked" width="550.0">
             <cursor>
                 <Cursor fx:constant="CROSSHAIR" />
             </cursor>
