@@ -33,17 +33,17 @@ public class AppController {
         graphicsContext = canvas.getGraphicsContext2D();
         model.getCurrentShapesList().addListener((ListChangeListener<Shape>) (__ -> drawShapesOnCanvas()));
         model.getUndoList().addListener((ListChangeListener<Command>) (__ -> updateUndoAvailability()));
-        undoButton.disableProperty().bind(model.isUndoUnavailableProperty());
+        undoButton.disableProperty().bind(model.undoIsUnavailableProperty());
         model.getRedoList().addListener((ListChangeListener<Command>) (__ -> updateRedoAvailability()));
-        redoButton.disableProperty().bind(model.isRedoUnavailableProperty());
+        redoButton.disableProperty().bind(model.redoIsUnavailableProperty());
     }
 
     private void updateUndoAvailability() {
-        model.setIsUndoUnavailable(model.getUndoList().isEmpty());
+        model.setUndoIsUnavailable(model.getUndoList().isEmpty());
     }
 
     private void updateRedoAvailability() {
-        model.setIsRedoUnavailable(model.getRedoList().isEmpty());
+        model.setRedoIsUnavailable(model.getRedoList().isEmpty());
     }
 
     void drawShapesOnCanvas() {

@@ -17,8 +17,8 @@ public class Model {
     private final ObservableList<Shape> currentShapesList;
     private final ObservableList<Command> undoList;
     private final ObservableList<Command> redoList;
-    private final ObjectProperty<Boolean> isUndoUnavailable;
-    private final ObjectProperty<Boolean> isRedoUnavailable;
+    private final ObjectProperty<Boolean> undoIsUnavailable;
+    private final ObjectProperty<Boolean> redoIsUnavailable;
 
     public Model () {
         this.color = new SimpleObjectProperty<>(Color.web("#663366"));
@@ -28,8 +28,8 @@ public class Model {
         this.currentShapesList = FXCollections.observableArrayList(shape -> new Observable[] {shape.colorProperty(), shape.sizeProperty()});
         this.undoList = FXCollections.observableArrayList();
         this.redoList = FXCollections.observableArrayList();
-        this.isUndoUnavailable = new SimpleObjectProperty<>(true);
-        this.isRedoUnavailable = new SimpleObjectProperty<>(true);
+        this.undoIsUnavailable = new SimpleObjectProperty<>(true);
+        this.redoIsUnavailable = new SimpleObjectProperty<>(true);
     }
 
     public ObjectProperty<Color> colorProperty() {
@@ -72,19 +72,19 @@ public class Model {
         return redoList;
     }
 
-    public ObservableValue<Boolean> isUndoUnavailableProperty() {
-        return isUndoUnavailable;
+    public ObservableValue<Boolean> undoIsUnavailableProperty() {
+        return undoIsUnavailable;
     }
 
-    public void setIsUndoUnavailable(Boolean isUndoUnavailable) {
-        this.isUndoUnavailable.set(isUndoUnavailable);
+    public void setUndoIsUnavailable(Boolean undoIsUnavailable) {
+        this.undoIsUnavailable.set(undoIsUnavailable);
     }
 
-    public ObjectProperty<Boolean> isRedoUnavailableProperty() {
-        return isRedoUnavailable;
+    public ObjectProperty<Boolean> redoIsUnavailableProperty() {
+        return redoIsUnavailable;
     }
 
-    public void setIsRedoUnavailable(Boolean isRedoUnavailable) {
-        this.isRedoUnavailable.set(isRedoUnavailable);
+    public void setRedoIsUnavailable(Boolean redoIsUnavailable) {
+        this.redoIsUnavailable.set(redoIsUnavailable);
     }
 }
