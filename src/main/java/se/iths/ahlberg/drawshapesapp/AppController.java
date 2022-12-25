@@ -6,7 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import java.io.File;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -48,8 +49,12 @@ public class AppController {
 
         if (mouseEvent.isControlDown())
             model.replaceSelectedShape(coordinates);
-        else
-            model.addNewShape(coordinates);
+        else {
+            if (model.printWriter != null)
+                model.printWriter.println(model.createShape(coordinates).toSVG());
+            else
+                model.addShapeToCurrent(model.createShape(coordinates));
+        }
     }
 
     public void onSaveButtonClicked() {
@@ -80,5 +85,9 @@ public class AppController {
 
     public void onRedoButtonClicked() {
         model.handleRedo();
+    }
+
+    public void onConnectButtonClicked() {
+        model.setupServerConnection();
     }
 }

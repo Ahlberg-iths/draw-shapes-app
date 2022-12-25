@@ -24,7 +24,7 @@
         <Pane prefHeight="40.0" prefWidth="400.0" />
         <VBox alignment="BOTTOM_CENTER" minWidth="100.0" prefHeight="200.0" prefWidth="100.0">
             <Label ellipsisString="" text="Collaborate:" />
-            <Button fx:id="connectButton" ellipsisString="Connect" mnemonicParsing="false" text="Connect">
+            <Button fx:id="connectButton" onAction="#onConnectButtonClicked" ellipsisString="Connect" mnemonicParsing="false" text="Connect">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

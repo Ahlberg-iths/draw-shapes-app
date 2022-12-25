@@ -2,6 +2,8 @@ package se.iths.ahlberg.drawshapesapp;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
+import java.text.Format;
 import java.util.Locale;
 
 public class Square extends Shape {
@@ -31,7 +33,14 @@ public class Square extends Shape {
                 "\" y=\"" + y +
                 "\" width=\"" + getSize() +
                 "\" height=\"" + getSize() +
-                "\" fill=\"#" + getColor().toString().substring(2, 8) + "\" />";
+                "\" fill=\"#" + getColor().toString().substring(2, 8) +
+                "\" data-dsapp=\"" +
+                "S," +
+                getSize() +
+                ",#"+ getColor().toString().substring(2, 8) +
+                "," + String.format(Locale.US, "%.2f", getCoordinates().x()) +
+                "," + String.format(Locale.US, "%.2f", getCoordinates().y()) +
+                "\" />";
     }
 
     @Override

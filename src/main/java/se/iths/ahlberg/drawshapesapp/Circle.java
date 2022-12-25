@@ -30,7 +30,14 @@ public class Circle extends Shape {
         return "<circle cx=\"" + x +
                 "\" cy=\"" + y +
                 "\" r=\"" + Calc.radiusFromDiameter(getSize()) +
-                "\" fill=\"#" + getColor().toString().substring(2, 8) + "\" />";
+                "\" fill=\"#" + getColor().toString().substring(2, 8) +
+                "\" data-dsapp=\"" +
+                "C," +
+                getSize() +
+                ",#"+ getColor().toString().substring(2, 8) +
+                "," + String.format(Locale.US, "%.2f", getCoordinates().x()) +
+                "," + String.format(Locale.US, "%.2f", getCoordinates().y()) +
+                "\" />";
     }
 
     @Override

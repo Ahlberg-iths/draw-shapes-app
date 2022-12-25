@@ -1,13 +1,21 @@
 package se.iths.ahlberg.drawshapesapp;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class Model {
 
@@ -20,6 +28,8 @@ public class Model {
     private final ObservableList<Command> redoList;
     private final ObjectProperty<Boolean> undoIsUnavailable;
     private final ObjectProperty<Boolean> redoIsUnavailable;
+
+    PrintWriter printWriter;
 
     public Model () {
         this.color = new SimpleObjectProperty<>(Color.web("#663366"));
@@ -131,11 +141,9 @@ public class Model {
                 .reduce((a,b) -> b);
     }
 
-    void addNewShape(CanvasCoordinates coordinates) {
+    void addShapeToCurrent(Shape shapeToAdd) {
 
-        Shape shape = Shape.of(getShapeChoice(), (Double)getSize(), getColor(), coordinates);
-
-        Command addCommand = new AddCommand(shape, this);
+        Command addCommand = new AddCommand(shapeToAdd, this);
         addCommand.execute();
         getUndoList().add(addCommand);
         getRedoList().clear();
@@ -153,5 +161,47 @@ public class Model {
 
     void updateRedoAvailability() {
         setRedoIsUnavailable(getRedoList().isEmpty());
+    }
+
+    public Shape createShape(CanvasCoordinates coordinates) {
+        return Shape.of(getShapeChoice(), (Double) getSize(), getColor(), coordinates);
+    }
+
+    void setupServerConnection() {
+        try {
+            Socket socket = new Socket("localhost", 8000);
+            this.printWriter = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            startServerListener(reader);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isConvertibleToShape(String text) {
+        return Pattern.compile("data-dsapp=\"(.+)\"").matcher(text).find();
+    }
+
+    private void startServerListener(BufferedReader reader) {
+
+        Thread serverListenerThread = new Thread(() -> {
+            while(true) {
+                try {
+                    String serverMessage = reader.readLine();
+                    if (isConvertibleToShape(serverMessage)) {
+                        Platform.runLater(() -> {
+                            addShapeToCurrent(Shape.fromServerString(serverMessage));
+                        });
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        serverListenerThread.setDaemon(true);
+        serverListenerThread.start();
     }
 }
