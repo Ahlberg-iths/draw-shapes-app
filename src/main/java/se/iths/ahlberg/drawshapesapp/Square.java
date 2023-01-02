@@ -2,8 +2,6 @@ package se.iths.ahlberg.drawshapesapp;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.text.Format;
 import java.util.Locale;
 
 public class Square extends Shape {

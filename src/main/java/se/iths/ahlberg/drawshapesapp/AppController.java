@@ -49,12 +49,8 @@ public class AppController {
 
         if (mouseEvent.isControlDown())
             model.replaceSelectedShape(coordinates);
-        else {
-            if (model.printWriter != null)
-                model.printWriter.println(model.createShape(coordinates).toSVG());
-            else
-                model.addShapeToCurrent(model.createShape(coordinates));
-        }
+        else
+            model.addNewShape(coordinates);
     }
 
     public void onSaveButtonClicked() {

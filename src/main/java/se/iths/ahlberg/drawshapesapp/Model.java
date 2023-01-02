@@ -190,11 +190,8 @@ public class Model {
             while(true) {
                 try {
                     String serverMessage = reader.readLine();
-                    if (isConvertibleToShape(serverMessage)) {
-                        Platform.runLater(() -> {
-                            addShapeToCurrent(Shape.fromServerString(serverMessage));
-                        });
-                    }
+                    if (isConvertibleToShape(serverMessage))
+                        Platform.runLater(() -> addShapeToCurrent(Shape.fromServerString(serverMessage)));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -203,5 +200,12 @@ public class Model {
 
         serverListenerThread.setDaemon(true);
         serverListenerThread.start();
+    }
+
+    void addNewShape(CanvasCoordinates coordinates) {
+        if (printWriter != null)
+            printWriter.println(createShape(coordinates).toSVG());
+        else
+            addShapeToCurrent(createShape(coordinates));
     }
 }

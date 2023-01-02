@@ -27,7 +27,6 @@ public abstract class Shape {
     }
 
     public static Shape fromServerString(String serverMessage) {
-        Pattern.compile("data-dsapp=\"(.+)\"").matcher(serverMessage).results().forEach(res -> System.out.println(res.group(1)));
         var data = Pattern.compile("data-dsapp=\"(.+)\"").matcher(serverMessage).results().reduce((a, b) -> b).get().group(1).split(",");
 
         ShapeChoice shapeChoice = data[0].equals("C") ? ShapeChoice.CIRCLE : ShapeChoice.SQUARE;
